@@ -37,6 +37,7 @@ shoppingApi();
 
 
 function displayScreen(resData){
+  kart.innerHTML = '';
  resData.forEach((product) =>{
     const {image,category,title,price,description} = product;
  
@@ -99,16 +100,18 @@ btns.innerHTML = `<button class="btn btn-primary btn-category">ALL</button><butt
 <button class="btn btn-success btn-category">SPORTS</button>
 <button class="btn btn-info btn-category">HOME</button>
 <button class="btn btn-warning btn-category">SHOP</button>
-<button class="btn btn-danger btn-category">CLOTHINGS</button>
+<button class="btn btn-danger btn-category">CLOTHING</button>
 `;
 
 document.querySelectorAll(".btn-category").forEach(button => {
   button.addEventListener("click",()=>{
+    // displayScreen(resData);
+
 
     const selectedCategory = button.textContent.toLowerCase();
 
     if(selectedCategory=== "all"){
-      // displayScreen(resData);
+      displayScreen(resData);
     
     }else{
       const filteredProducts = resData.filter(product => product.category.toLowerCase() === selectedCategory);
@@ -126,8 +129,8 @@ document.querySelectorAll(".btn-category").forEach(button => {
 }
 
 
-
-
+displayScreen(resData);
+shoppingApi();
 
 
 
