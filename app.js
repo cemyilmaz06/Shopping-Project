@@ -18,6 +18,7 @@ const seeDetails=document.querySelector(".see-details");
 const modal=document.querySelector(".modal");
 const modalBody=document.querySelector(".modal-body");
 const kart=document.getElementById("products");
+const btns=document.getElementById("btns");
 
 
 
@@ -34,6 +35,7 @@ async function shoppingApi() {
 }
 shoppingApi();
 
+
 function displayScreen(resData){
  resData.forEach((product) =>{
     const {image,category,title,price,description} = product;
@@ -46,11 +48,12 @@ kart.innerHTML+=`<div class="col">
               src="${image}"
               class="p-2"
               height="250px"
+             
               alt=""
             />
             <div class="card-body">
               <h5 class="card-title line-clamp-1">${title}</h5>
-              <p class="card-text line-clamp-3">${description}</p>
+              <p class="card-text line-clamp-2">${description}</p>
             </div>
             <div
               class="card-footer w-100 fw-bold d-flex justify-content-between gap-3"
@@ -70,9 +73,63 @@ kart.innerHTML+=`<div class="col">
           </div>
         </div>`
         
-    });
 
         
-    }
+
+
+        
+    });
 
     
+    const kategoriAyir=resData.reduce((biriktir,urun)=>{
+
+      if (!biriktir[urun.category]){
+          biriktir[urun.category]=[]
+      }
+      biriktir[urun.category].push(urun)
+    return biriktir
+
+  },[])
+kategoriAyir.unshift("all");
+  console.log(kategoriAyir);
+  const {Electronics, Sports, Home, Shop, Clothings}= kategoriAyir;
+
+Object.keys(kategoriAyir).forEach(category => {
+btns.innerHTML = `<button class="btn btn-primary btn-category">ALL</button><button class="btn btn-secondary btn-category">ELECTRONICS</button>
+<button class="btn btn-success btn-category">SPORTS</button>
+<button class="btn btn-info btn-category">HOME</button>
+<button class="btn btn-warning btn-category">SHOP</button>
+<button class="btn btn-danger btn-category">CLOTHINGS</button>
+`;
+
+document.querySelectorAll(".btn-category").forEach(button => {
+  button.addEventListener("click",()=>{
+
+    const selectedCategory = button.textContent.toLowerCase();
+
+    if(selectedCategory=== "all"){
+      // displayScreen(resData);
+    
+    }else{
+      const filteredProducts = resData.filter(product => product.category.toLowerCase() === selectedCategory);
+      displayScreen(filteredProducts);
+      
+    }
+    
+  })
+})
+
+
+
+
+})
+}
+
+
+
+
+
+
+
+
+
